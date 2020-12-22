@@ -126,6 +126,13 @@ component {
             printDump(site);
             error("Server port not defined for #site.site_id#: #site.server_json# ");
         }
+
+        if (site.keyExists("webserver") && site.webserver.keyExists("include")) {
+            if (left(site.webserver.include, 1) != "") {
+                site.webserver.include = site.path & site.webserver.include;
+            }
+        }
+
         return site;
     }
 
