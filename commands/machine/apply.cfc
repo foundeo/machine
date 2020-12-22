@@ -65,12 +65,14 @@ component extends="base" {
                 print.greenLine(" + Service: #site_id# created systemd service");
                 print.blueLine(command("run").params("systemctl enable #site_id#.service").run( returnOutput=true ));
                 print.greenLine(" + Service: #site_id# enabled systemd service");
+
+                print.greenLine(" + Service: #site_id# attempting to start service (this may take a minute)").toConsole();
+                print.blueLine(command("run").params("systemctl start #site_id#.service").run( returnOutput=true )).toConsole();
             } else {
                 print.yellowLine(" - Service: #site_id# already deployed as a systemd service");
             }
 
-            print.greenLine(" + Service: #site_id# attempting to start service").toConsole();
-            command("run").params("systemctl start #site_id#.service").run( returnOutput=true );
+            
             if (machine.webserver.type == "nginx") {
                 print.greenLine(" + Web Server: #site_id# writing nginx configuration").toConsole();
                 //create nginx site
@@ -137,7 +139,7 @@ component extends="base" {
             }
         }
         print.greenLine(" + Machine: writing /etc/machine/machine.json");
-        fileCopy(serializeJSON(machine), "/etc/machine/machine.json");
+        fileWrite("/etc/machine/machine.json", serializeJSON(machine));
 
         print.greenLine(" + Machine: DONE");
         
