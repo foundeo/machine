@@ -1,0 +1,11 @@
+[Unit]
+Description={{site.site_id}} Service
+
+[Service]
+EnvironmentFile=/etc/machine/machine.env
+ExecStart=/etc/machine/{{site.site_id}}.sh
+Type=forking
+User={{site.site_id}}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+{
+    "name":"machine",
+    "slug":"machine",
+    "shortDescription":"A CommandBox comand.",
+    "type":"commandbox-modules"
+}

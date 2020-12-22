@@ -1,0 +1,26 @@
+{
+    "stage":"production",
+
+    "webserver": {
+        "type":"nginx"
+    },
+
+    "sites": {
+        "example": {
+            "path": "/web/example.com/",
+            "wwwroot": "",
+            "host": "example.com",
+            "aliases": ["www.example.com"],
+            "webserver": {
+                "https": true,
+                "ssl_certificate": "/etc/letsencrypt/live/example.com/fullchain.pem",
+                "ssl_certificate_key": "/etc/letsencrypt/live/example.com/privkey.pem",
+                "ssl_trusted_certificate": "/etc/letsencrypt/live/example.com/chain.pem"
+            },
+            "deploy": {
+                "git": "https://github.com/foundeo/cfmetrics.git"
+            }
+        }
+        
+    }
+}
