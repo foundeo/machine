@@ -56,7 +56,8 @@ component extends="base" {
                 print.yellowLine(" - Service: #site_id# already has a service script file");
             }
             //create systemd service
-            if (!fileExists(local.site_service_path) || arguments.overwrite) {
+            local.systemd_service_existed = fileExists(local.site_service_path);
+            if (!local.systemd_service_existed || arguments.overwrite) {
                 template = fileRead(getEtcTemplatePath("systemd/system/template.service"));
                 template = mustache.render(template, {machine=machine, site=site, environment=server.system.environment});
                 
@@ -66,8 +67,12 @@ component extends="base" {
                 print.blueLine(command("run").params("systemctl enable #site_id#.service").run( returnOutput=true ));
                 print.greenLine(" + Service: #site_id# enabled systemd service");
 
-                print.greenLine(" + Service: #site_id# attempting to start service (this may take a minute)").toConsole();
-                print.blueLine(command("run").params("systemctl start #site_id#.service").run( returnOutput=true )).toConsole();
+                if (!local.systemd_service_existed) {
+                    //only starts the service if it is newly created, not on overwrite
+                    print.greenLine(" + Service: #site_id# attempting to start service (this may take a minute)").toConsole();
+                    print.blueLine(command("run").params("systemctl start #site_id#.service").run( returnOutput=true )).toConsole();
+                }
+                
             } else {
                 print.yellowLine(" - Service: #site_id# already deployed as a systemd service");
             }
