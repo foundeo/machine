@@ -1,11 +1,14 @@
 [Unit]
 Description={{site.site_id}} Service
+Requires=network-online.target
+After=network-online.target
 
 [Service]
 EnvironmentFile=/etc/machine/machine.env
 ExecStart=/etc/machine/{{site.site_id}}.sh
 Type=forking
 User={{site.site_id}}
+TimeoutSec=120
 
 [Install]
 WantedBy=multi-user.target

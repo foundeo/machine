@@ -29,8 +29,8 @@ RUN chmod a+x /usr/bin/systemctl
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt install vim certbot -y --no-install-recommends
 
-RUN echo "127.0.0.1 example.com" >> /etc/hosts
-RUN echo "127.0.0.1 www.example.com" >> /etc/hosts
+#RUN echo "127.0.0.1 example.com" >> /etc/hosts
+#RUN echo "127.0.0.1 www.example.com" >> /etc/hosts
 
 RUN echo 8
 
